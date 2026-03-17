@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Letter to My Kohinoor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Inter:wght@300;400;500&family=Amiri:ital@0;1&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Allura&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #FFF5F7;
+            --soft-blush: #FCE7F3;
+            --madam-gold: #D4AF37;
+            --text-dark: #4A4E69;
+            --text-romantic: #6B4E71;
+            --lavender-mist: #F3E8FF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-pink);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            color: var(--text-dark);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-arabic { font-family: 'Amiri', serif; }
+        .font-romantic { font-family: 'Dancing Script', cursive; }
+        .font-signature { font-family: 'Allura', cursive; }
+        .font-premium { font-family: 'Playfair Display', serif; }
+
+        /* Madam Highlight - Golden Glow Only for this word */
+        .madam-highlight {
+            color: var(--madam-gold);
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+            display: inline-block;
+        }
+
+        /* Falling Hearts Animation */
+        #hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-particle {
+            position: absolute;
+            bottom: -20px;
+            fill: #FBCFE8;
+            opacity: 0.5;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Glass Card Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.03);
+            width: 90%;
+            max-width: 440px;
+            padding: 2.5rem 2rem;
+            border-radius: 2.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin: auto;
+        }
+
+        /* Typewriter Cursor */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: #F9A8D4;
+            margin-left: 3px;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Islamic Button Style */
+        .btn-islamic {
+            background: white;
+            color: var(--text-romantic);
+            padding: 0.9rem 2.2rem;
+            border-radius: 9999px;
+            border: 1px solid var(--soft-blush);
+            font-weight: 500;
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.05);
+            margin-top: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .btn-islamic.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-islamic:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(219, 39, 119, 0.12);
+            border-color: #F9A8D4;
+            color: #DB2777;
+        }
+
+        /* Signature Pad */
+        #sig-canvas {
+            background: white;
+            border: 1px dashed #FBCFE8;
+            border-radius: 1.5rem;
+            cursor: crosshair;
+            touch-action: none;
+            width: 100%;
+            height: 140px;
+        }
+
+        /* Transitions */
+        .fade-content {
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .countdown-item {
+            background: white;
+            padding: 0.8rem;
+            border-radius: 1.2rem;
+            border: 1px solid var(--soft-blush);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+        }
+
+        .dua-item {
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        .dua-item.active { opacity: 1; }
+
+        .btn-romantic {
+            background: linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%);
+            color: #6b4e71;
+            padding: 0.8rem 1.8rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(249, 168, 212, 0.4);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-romantic:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(249, 168, 212, 0.6);
+            background: linear-gradient(135deg, #f9a8d4 0%, #f472b6 100%);
+            color: white;
+        }
+
+        .btn-romantic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-romantic:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 380px) {
+            .glass-card { padding: 2rem 1.5rem; }
+            h1 { font-size: 1.8rem !important; }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="hearts-container"></div>
+
+    <main id="app" class="w-full flex items-center justify-center">
+        <!-- Content Injected by JS -->
+    </main>
+
+    <script>
+        const PAGES = [
+            {
+                title: "Bismillah",
+                date: "Eid Mubarak",
+                paragraph: "Bismillah ir-Rahman ir-Rahim. On this blessed day of Eid, as the world celebrates with joy, my heart finds its greatest gratitude in the Qadr that brought you into my life. Eid Mubarak to you, my Madam. I pray that Allah showers your life with endless barakah and fills your days with the kind of sukoon that only a heart at peace with its Creator can know. You are a manifestation of a dua I whispered in the silence of the night, and I am forever thankful to Alhamdulillah for the modesty and grace you embody. Please forgive me that I cannot bring you a physical Eid gift right now because of our boundaries. But that does not mean my love is any less. For now, please accept my love as my gift. InshaAllah when our nikah happens in the future, I will give you many kisses, many gifts, and a lot of love. I’m really sorry. May our path ahead be paved with sabr and may every step we take lead us closer to each other and to Him, Insha’Allah.",
+                button: "Blessed Beginning"
+            },
+            {
+                title: "Nervous Hope",
+                date: "20th December",
+                paragraph: "I look back at the 20th of December with a deep sense of awe at how Allah unfolds His plans. Sending that first request to you was not merely a casual act, but a step taken with much prayer and a trembling heart, seeking a path that was pleasing to Him. I felt a profound sense of haya and responsibility towards you, my Madam, even before our first word was exchanged. It was a day of nervous hope, where I placed my trust in Allah, asking that if there was khair in this connection, He might open the doors for us. Looking back, it was the moment my search for a companion found its true direction, Alhamdulillah.",
+                button: "Destined Moment"
+            },
+            {
+                title: "When Destiny Became Real",
+                date: "26th December",
+                paragraph: "On 26 December, something happened that made our connection feel real and meaningful. In a world where many people hide their relationships, you chose honesty and courage. You told your mother about me. That moment meant more to me than I can explain, because sharing someone with your family is not a small thing. It shows trust, sincerity, and intention. Madam, that was the day I realized you were not someone temporary in my life. You were someone special, someone worth respecting deeply. From that day, I promised myself that I would always protect the trust you placed in me.",
+                button: "Pure Intention"
+            },
+            {
+                title: "A Soft Regret",
+                date: "7th January",
+                paragraph: "The 7th of January remains a quiet reminder in my heart of a moment where I hesitated. I was scared to celebrate your birthday, held back by the fear of overstepping the boundaries of respect I hold for you. I still carry a soft regret for not making you feel more cherished on that day, as you deserved every bit of happiness. I pray you see it as a reflection of how deeply I value your honor, my Madam. I ask Allah to grant me the wisdom to always cherish you in ways that bring barakah to our lives and joy to your soul, Insha’Allah.",
+                button: "Heartfelt Dua"
+            },
+            {
+                title: "First Call",
+                date: "28th January",
+                paragraph: "On 28th January, I got frustrated and said I was leaving, but instead, it became our very first call. You scolded me that day, my Madam, and honestly, I still love that memory more than anything. Your scolding was filled with a care and maturity that I had never experienced before. It brought a sukoon to my soul, realizing that behind your modesty was a heart that truly cared for my well-being. That day, my obsession turned into a deep, respectful love, Mashallah, and I thank Allah for that beautiful moment of connection.",
+                button: "Unforgettable Memory"
+            },
+            {
+                title: "A Perfect Wish",
+                date: "2nd February",
+                paragraph: "On the 2nd of February, I received the best birthday wish of my life. Your words were filled with a kindness that reflected your beautiful soul, making me feel seen and respected in a way I had never imagined. To be remembered by you, my Madam, with such sincerity, made me realize that my greatest wealth in this dunya is the affection of a virtuous heart. I offered a silent Alhamdulillah for the way you have touched my life, praying that Allah always protects you and keeps your heart as radiant as the light you bring into my world.",
+                button: "Grateful Heart"
+            },
+            {
+                title: "My Dream Woman",
+                date: "11th February",
+                paragraph: "The 11th of February is etched in my soul as the day I saw you for the first time. It felt like an angel had descended right before my eyes, and in that moment, you became my dream woman. You are my Kohinoor, a gem so rare and precious that no one better exists in this entire dunya, Mashallah. Seeing you was like finding the peace I didn't know I was searching for. You carry a nur that lights up my heart, and I pray that Allah always protects you and keeps you as my eternal companion, my Madam.",
+                button: "Divine Glance"
+            },
+            {
+                title: "Love With Boundaries",
+                date: "18th February",
+                paragraph: "On 18 February, we tried to take a step for the sake of Ramadan and our faith. We decided to reduce our conversations so we could focus more on Allah, our prayers, and spiritual growth. It was not easy for two people who cared deeply about each other. At first we tried to stop talking completely, but after a couple of days our patience became weaker and we started speaking again. However, we kept boundaries and spoke much less than before. Madam, this did not mean our love became smaller. Instead, it meant our love respected faith and spirituality. Real love supports the path toward Allah, not away from it.",
+                button: "Sabr & Peace"
+            },
+            {
+                title: "The Day You Came With Medicine",
+                date: "23rd February",
+                paragraph: "On 23 February, you showed me a kind of care that touched my heart deeply. During Ramadan I had a bad cough, and after finishing your class you came to my college just to give me medicine, cough syrup, and a chocolate. You came without eating or drinking anything, only to make sure I felt better. That moment felt like pure kindness and محبت. Even today I have kept the empty wrappers as memories because they remind me of that day. Madam, in that moment I felt truly blessed and said “Alhamdulillah” from my heart. Having someone who cares this deeply is a rare gift from Allah.",
+                button: "Pure Kindness"
+            },
+            {
+                title: "The Difficult Conversation",
+                date: "28th February",
+                paragraph: "On 28 February, we had a difficult conversation after a small argument. You told me something that stayed in my heart: that I deserved better and that maybe I should leave. You asked me to think about my decision and give you an answer by night. I stayed quiet the whole day, not because I wanted distance, but because I wanted you to think freely without pressure. When you asked me my decision, my answer was simple. I had already made a promise before Allah that I would never leave you or intentionally hurt you. Madam, you are not someone I want to walk away from. You are someone I want to stay beside.",
+                button: "True Commitment"
+            },
+            {
+                title: "The Journey Home",
+                date: "5th March",
+                paragraph: "Around 5 March, when I was leaving to go home, you kept telling me to go and enjoy time with my family. You said many times that I should relax and spend good time at home. At first it sounded like playful teasing, but deep inside I understood something important. Madam, you cared about my happiness even when I was going away for a while. That moment showed me that your love is genuine and thoughtful. Real love does not try to control someone; it wants the other person to feel peace and happiness wherever they are.",
+                button: "Thoughtful Love"
+            },
+            {
+                title: "Choosing Respect Over Desire",
+                date: "9 March",
+                paragraph: "On 9 March, there was a moment that tested our intentions. Madam was waiting at the bus stop, and I was only about 1.5 kilometers away in another college with my friends. In today’s generation, especially among young people, many believe that love must be proven by meeting often, hanging out, hugging, or crossing boundaries without thinking about halal and haram. But we chose something different. Even though we wanted to meet, we both controlled our desires equally and decided not to meet before nikah. Some people might think this means our love is weak, but in reality it means our faith is strong. Madam, your effort that day meant a lot to me, and when you said “I am proud of you” and “I love you,” those words stayed in my heart. Real love does not need physical proof; it can grow through respect, patience, and the fear of Allah.",
+                button: "Pure Respect"
+            },
+            {
+                title: "20 Ramadan – Choosing Faith Together",
+                date: "20 Ramadan",
+                paragraph: "On 20 Ramadan, as the blessed last ten nights approached and the search for Laylatul Qadr began, we made a sincere decision. We reduced our conversations almost completely so we could focus on ibadah, prayers, and seeking Allah’s mercy. Even though our hearts cared deeply for each other, we tried to control ourselves for the sake of faith. Madam, if sometimes I speak less during such moments, please never think my love becomes smaller. Love does not decrease because conversations become shorter. Whether we talk all day or only a few minutes, our bond remains the same. Our respect, sincerity, and care stay constant, InshaAllah.",
+                button: "Spiritual Bond"
+            },
+            {
+                title: "My Kohinoor",
+                date: "Final Love Letter",
+                paragraph: "My dearest Madam, you are the sukoon that my heart always longed for. You are my Kohinoor, the light of my life, and the answer to every sincere dua I have ever made. My love for you is not just a feeling, but a commitment I hold before Allah. I promise to cherish you, to protect you, and to always treat you with the honor and respect you deserve. You are my peace, my partner, and my greatest blessing. I love you more than words can ever express, and I am forever grateful for the day you entered my life, Mashallah. I love you. You are the most beautiful part of my life. Thank you so much for listening to me and for giving me a chance to be in your life. I truly love you.",
+                button: "Love Declaration"
+            },
+            {
+                title: "After Iftar – A Future We Dream Of",
+                date: "After Iftar",
+                paragraph: "Sometimes I imagine a peaceful evening in Ramadan after iftar. The adhan fades softly and the fast is broken with dates and water. Sweetheart, meri jaan, I imagine us sitting together in that quiet moment of gratitude. No noise, no rush, only sakoon and shukr to Allah for bringing our hearts together. Mera bachha, those simple moments are the ones that make life beautiful. A home filled with faith, patience, and love is the future I dream of with you.",
+                button: "Dream Future"
+            },
+            {
+                title: "Till Jannah, InshaAllah",
+                date: "Eternal Promise",
+                paragraph: "Some stories are not meant to end in this world alone. Sweetheart, meri jaan, my prayer is that our journey remains sincere, respectful, and blessed by Allah. Love is not just about happy moments; it is about loyalty, patience, and choosing each other every day. Mera bachha, if Allah has written our names together, I hope our bond grows stronger through every stage of life. One day we may look back at all these memories and smile at the path we walked together. Until then, I will keep making dua that our journey continues till Jannah, InshaAllah.",
+                button: "Eternal Bond"
+            },
+            {
+                title: "The Question",
+                date: "Will You Marry Me?",
+                paragraph: "With the name of Allah and a heart full of sincere intention, I stand before you to make a sacred promise. I have seen the beauty of your character and the purity of your soul, and I desire nothing more than to build a life with you that is pleasing to our Creator. From our first steps in December to the spiritual growth we found in Ramadan, every moment has strengthened my resolve to be your protector and companion. So, my dearest Madam, with the utmost respect for you and your family, I ask for your hand in Nikah. Will you honor me by becoming my wife, so that we may strive for Jannah together, Insha’Allah?",
+                button: "Qubool Hai"
+            }
+        ];
+
+        const DUAS = [
+            "Ya Allah, grant us eternal sukoon and mohabbat.",
+            "Protect our bond from anxiety, stress, and insecurity.",
+            "Bless our future Nikah and grant us lifelong happiness.",
+            "Ya Allah, grant us protection from the evil eye.",
+            "Ya Allah, make us the coolness of each other's eyes."
+        ];
+
+        let currentPage = 0;
+        let isTyping = false;
+
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            for(let i=0; i<30; i++) {
+                const heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                heart.setAttribute("viewBox", "0 0 24 24");
+                heart.classList.add("heart-particle");
+                heart.innerHTML = `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`;
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.width = (10 + Math.random() * 20) + 'px';
+                heart.style.animationDuration = (15 + Math.random() * 20) + 's';
+                heart.style.animationDelay = (Math.random() * 20) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        async function typeText(element, text) {
+            isTyping = true;
+            element.innerHTML = '';
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            
+            let displayed = "";
+            for (let i = 0; i < text.length; i++) {
+                displayed += text[i];
+                // Replace "Madam" with the golden glow span
+                let html = displayed.replace(/Madam/g, '<span class="madam-highlight">Madam</span>');
+                element.innerHTML = html;
+                element.appendChild(cursor);
+                
+                let delay = 40 + Math.random() * 30;
+                if (['.', '?', '!'].includes(text[i])) delay = 700;
+                else if (text[i] === ',') delay = 350;
+                
+                await new Promise(r => setTimeout(r, delay));
+            }
+            cursor.remove();
+            isTyping = false;
+            document.querySelectorAll('.btn-islamic').forEach(btn => btn.classList.add('visible'));
+        }
+
+        function renderPage() {
+            const app = document.getElementById('app');
+            const data = PAGES[currentPage];
+            
+            app.innerHTML = `
+                <div class="glass-card fade-content">
+                    <div class="mb-8">
+                        <span class="font-arabic text-2xl text-pink-400 opacity-60">﷽</span>
+                        <h2 class="text-[10px] uppercase tracking-[0.3em] text-pink-300 font-bold mt-2">${data.date}</h2>
+                        <h1 class="font-romantic text-4xl text-slate-700 mt-1">${data.title}</h1>
+                    </div>
+                    <div id="typewriter-container" class="min-h-[180px] flex items-center">
+                        <p class="text-[16px] text-slate-600 leading-relaxed font-light italic text-center"></p>
+                    </div>
+                    <div class="flex flex-wrap gap-4 justify-center mt-4">
+                        ${currentPage > 0 ? `
+                            <button class="btn-islamic visible" onclick="prevPage()">
+                                <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                <span>Previous</span>
+                            </button>
+                        ` : ''}
+                        <button class="btn-islamic" onclick="nextPage()">
+                            <span>${data.button}</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            const p = app.querySelector('#typewriter-container p');
+            typeText(p, data.paragraph);
+        }
+
+        function renderFinal() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="glass-card fade-content">
+                    <div class="mb-6">
+                        <span class="font-arabic text-xl text-pink-400 opacity-60">﷽</span>
+                        <h2 class="font-romantic text-3xl text-slate-700 mt-2">Signature & Future</h2>
+                    </div>
+
+                    <div class="flex flex-col gap-6">
+                        <div class="text-left">
+                            <span class="text-[9px] uppercase tracking-widest text-pink-300 font-bold mb-1 block">Groom Signature</span>
+                            <div class="bg-white border border-pink-50 rounded-xl h-24 flex items-center justify-center shadow-sm">
+                                <span class="font-signature text-5xl text-slate-600 -rotate-2">Rafe</span>
+                            </div>
+                        </div>
+                        <div class="text-left">
+                            <span class="text-[9px] uppercase tracking-widest text-pink-300 font-bold mb-1 block">Madam Signature</span>
+                            <canvas id="sig-canvas"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 justify-center mt-6">
+                        <button class="btn-islamic visible" onclick="currentPage = PAGES.length - 1; renderPage();">
+                            <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            <span>Back</span>
+                        </button>
+                        <button id="finalize-btn" class="btn-islamic opacity-40" disabled onclick="showCountdown()">
+                            <span>Sign Your Future</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            initSignaturePad();
+        }
+
+        function initSignaturePad() {
+            const canvas = document.getElementById('sig-canvas');
+            const ctx = canvas.getContext('2d');
+            const btn = document.getElementById('finalize-btn');
+            let drawing = false;
+
+            const getPos = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            };
+
+            const start = (e) => { drawing = true; ctx.beginPath(); const {x,y} = getPos(e); ctx.moveTo(x,y); };
+            const stop = () => { drawing = false; btn.disabled = false; btn.classList.remove('opacity-40'); btn.classList.add('visible'); };
+            const move = (e) => {
+                if(!drawing) return;
+                const {x,y} = getPos(e);
+                ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = '#4A4E69';
+                ctx.lineTo(x, y); ctx.stroke();
+            };
+
+            canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
+            canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
+        }
+
+        function showCountdown() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="glass-card fade-content">
+                    <div class="mb-6">
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-pink-400 font-bold">Congratulations</span>
+                        <h2 class="font-romantic text-2xl text-slate-700 mt-1">Alḥamdulillāh for Us</h2>
+                    </div>
+
+                    <div class="bg-pink-50/40 p-5 rounded-[2rem] border border-pink-100/50 mb-6">
+                        <h3 class="text-[9px] uppercase tracking-widest text-pink-300 font-bold mb-4">Countdown to 32 September (Symbolic)</h3>
+                        <div id="timer" class="grid grid-cols-3 gap-2"></div>
+                        
+                        <div class="mt-6 flex justify-center">
+                            <a href="https://tally.so/r/44kEVd" target="_blank" class="btn-romantic">
+                                Send Your Message, Jaan 💌❤️
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="dua-display" class="min-h-[60px] flex items-center justify-center">
+                        <!-- Duas injected here -->
+                    </div>
+
+                    <div class="border-t border-pink-50 pt-6 mt-6">
+                        <p class="font-romantic text-2xl text-slate-700">Eid Mubarak, my everything.</p>
+                        <p class="text-[9px] text-pink-300 uppercase tracking-widest font-bold mt-3">With Purest Intention, Rafe</p>
+                    </div>
+                </div>
+            `;
+            startCountdown();
+            startDuaCycle();
+        }
+
+        function startCountdown() {
+            const target = new Date();
+            target.setFullYear(target.getFullYear() + 5);
+            target.setMonth(target.getMonth() + 7);
+            
+            const timer = document.getElementById('timer');
+            function update() {
+                const now = new Date();
+                let diff = target - now;
+                const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+                const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+                const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const data = [
+                    {l:'Years', v:years}, {l:'Months', v:months}, {l:'Days', v:days},
+                    {l:'Hrs', v:hours}, {l:'Mins', v:mins}, {l:'Secs', v:secs}
+                ];
+
+                timer.innerHTML = data.map(i => `
+                    <div class="countdown-item flex flex-col items-center">
+                        <span class="text-xl font-light text-slate-700 tabular-nums">${String(i.v).padStart(2,'0')}</span>
+                        <span class="text-[7px] uppercase tracking-tighter text-pink-300 font-bold">${i.l}</span>
+                    </div>
+                `).join('');
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        function startDuaCycle() {
+            const display = document.getElementById('dua-display');
+            let i = 0;
+            function next() {
+                display.innerHTML = `<p class="dua-item text-[13px] text-slate-500 italic text-center px-4 leading-relaxed">${DUAS[i]}</p>`;
+                setTimeout(() => {
+                    display.querySelector('p').classList.add('active');
+                }, 100);
+                i = (i + 1) % DUAS.length;
+            }
+            next();
+            setInterval(next, 6000);
+        }
+
+        function nextPage() {
+            if (isTyping) return;
+            if (currentPage < PAGES.length - 1) {
+                currentPage++;
+                renderPage();
+            } else {
+                renderFinal();
+            }
+        }
+
+        function prevPage() {
+            if (isTyping) return;
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage();
+            }
+        }
+
+        // Initialize
+        createHearts();
+        renderPage();
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
